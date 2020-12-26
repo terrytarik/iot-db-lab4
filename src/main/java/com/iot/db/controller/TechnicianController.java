@@ -4,25 +4,31 @@ import com.iot.db.entity.Technician;
 import com.iot.db.service.TechnicianService;
 import java.util.List;
 
-public class TechnicianController {
-    TechnicianService technicianService;
+public class TechnicianController implements GeneralController<Technician, Integer>{
+    private TechnicianService technicianService = new TechnicianService();
+
+    @Override
     public List<Technician> getAll() {
         return technicianService.getAll();
     }
 
-    public Technician getTechnicianById(int id) {
-        return technicianService.getTechnicianById(id);
+    @Override
+    public Technician getById(Integer id) {
+        return technicianService.getById(id);
     }
 
-    public boolean deleteTechnician(int id) {
-        return technicianService.deleteTechnician(id);
+    @Override
+    public String create(Technician createObj) {
+        return technicianService.create(createObj);
     }
 
-    public boolean createTechnician(Technician technician) {
-        return technicianService.createTechnician(technician);
+    @Override
+    public String deleteById(Integer id) {
+        return technicianService.deleteById(id);
     }
 
-    public boolean updateTechnician(Technician technician) {
-        return technicianService.updateTechnician(technician);
+    @Override
+    public String update(Technician updateObj) {
+        return technicianService.update(updateObj);
     }
 }

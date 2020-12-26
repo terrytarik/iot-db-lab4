@@ -2,28 +2,33 @@ package com.iot.db.service;
 
 import com.iot.db.dao.ItemLoadingDao;
 import com.iot.db.entity.ItemLoading;
-import java.time.LocalDateTime;
 import java.util.List;
 
-public class ItemLoadingService {
-    ItemLoadingDao dao;
+public class ItemLoadingService implements GeneralService<ItemLoading, String>{
+    private ItemLoadingDao dao = new ItemLoadingDao();
+
+    @Override
     public List<ItemLoading> getAll() {
         return dao.getAll();
     }
 
-    public ItemLoading getItemLoadingByLastLoading(LocalDateTime parse) {
-        return dao.getItemLoadingByLastLoading(parse);
+    @Override
+    public ItemLoading getById(String id) {
+        return dao.getById(id);
     }
 
-    public boolean deleteItemLoading(LocalDateTime parse) {
-        return dao.deleteItemLoading(parse);
+    @Override
+    public String create(ItemLoading createObj) {
+        return dao.create(createObj);
     }
 
-    public boolean createItemLoading(ItemLoading itemLoading) {
-        return dao.createItemLoading(itemLoading);
+    @Override
+    public String deleteById(String id) {
+        return dao.deleteById(id);
     }
 
-    public boolean updateItemLoading(ItemLoading itemLoading) {
-        return dao.updateItemLoading(itemLoading);
+    @Override
+    public String update(ItemLoading updateObj) {
+        return dao.update(updateObj);
     }
 }

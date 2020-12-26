@@ -1,28 +1,29 @@
 package com.iot.db.entity;
 
-import java.time.LocalDateTime;
-
 public class MoneyCollection {
-    private LocalDateTime lastCollection;
+    private String lastCollection;
     private int moneyAmount;
+    private int vendingMachineId;
 
     public MoneyCollection() {
     }
 
-    public MoneyCollection(int moneyAmount) {
+    public MoneyCollection(int moneyAmount, int vendingMachineId) {
         this.moneyAmount = moneyAmount;
+        this.vendingMachineId = vendingMachineId;
     }
 
-    public MoneyCollection(LocalDateTime lastCollection, int moneyAmount) {
+    public MoneyCollection(String lastCollection, int moneyAmount, int vendingMachineId) {
         this.lastCollection = lastCollection;
         this.moneyAmount = moneyAmount;
+        this.vendingMachineId = vendingMachineId;
     }
 
-    public LocalDateTime getLastCollection() {
+    public String getLastCollection() {
         return lastCollection;
     }
 
-    public void setLastCollection(LocalDateTime lastCollection) {
+    public void setLastCollection(String lastCollection) {
         this.lastCollection = lastCollection;
     }
 
@@ -34,11 +35,20 @@ public class MoneyCollection {
         this.moneyAmount = moneyAmount;
     }
 
+    public int getVendingMachineId() {
+        return vendingMachineId;
+    }
+
+    public void setVendingMachineId(int vendingMachineId) {
+        this.vendingMachineId = vendingMachineId;
+    }
+
     @Override
     public String toString() {
         return "MoneyCollection{" +
             "lastCollection=" + lastCollection +
             ", moneyAmount=" + moneyAmount +
+            ", vendingMachineId=" + vendingMachineId +
             '}';
     }
 }

@@ -2,28 +2,33 @@ package com.iot.db.service;
 
 import com.iot.db.dao.MoneyCollectionDao;
 import com.iot.db.entity.MoneyCollection;
-import java.time.LocalDateTime;
 import java.util.List;
 
-public class MoneyCollectionService {
-    MoneyCollectionDao dao;
+public class MoneyCollectionService implements GeneralService<MoneyCollection, String>{
+    private MoneyCollectionDao dao = new MoneyCollectionDao();
+
+    @Override
     public List<MoneyCollection> getAll() {
         return dao.getAll();
     }
 
-    public MoneyCollection getMoneyCollectionByLastCollection(LocalDateTime parse) {
-        return dao.getMoneyCollectionByLastCollection(parse);
+    @Override
+    public MoneyCollection getById(String id) {
+        return dao.getById(id);
     }
 
-    public boolean deleteMoneyCollection(LocalDateTime parse) {
-        return dao.deleteMoneyCollection(parse);
+    @Override
+    public String create(MoneyCollection createObj) {
+        return dao.create(createObj);
     }
 
-    public boolean createMoneyCollection(MoneyCollection moneyCollection) {
-        return dao.createMoneyCollection(moneyCollection);
+    @Override
+    public String deleteById(String id) {
+        return dao.deleteById(id);
     }
 
-    public boolean updateMoneyCollection(MoneyCollection moneyCollection) {
-        return dao.updateMoneyCollection(moneyCollection);
+    @Override
+    public String update(MoneyCollection updateObj) {
+        return dao.update(updateObj);
     }
 }

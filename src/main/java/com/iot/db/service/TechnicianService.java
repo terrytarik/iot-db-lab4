@@ -4,25 +4,31 @@ import com.iot.db.dao.TechnicianDao;
 import com.iot.db.entity.Technician;
 import java.util.List;
 
-public class TechnicianService {
-    TechnicianDao technicianDao;
+public class TechnicianService implements GeneralService<Technician, Integer>{
+    private TechnicianDao technicianDao = new TechnicianDao();
+
+    @Override
     public List<Technician> getAll() {
         return technicianDao.getAll();
     }
 
-    public Technician getTechnicianById(int id) {
-        return technicianDao.getTechnicianById(id);
+    @Override
+    public Technician getById(Integer id) {
+        return technicianDao.getById(id);
     }
 
-    public boolean deleteTechnician(int id) {
-        return technicianDao.deleteTechnician(id);
+    @Override
+    public String create(Technician createObj) {
+        return technicianDao.create(createObj);
     }
 
-    public boolean updateTechnician(Technician technician) {
-        return technicianDao.updateTechnician(technician);
+    @Override
+    public String deleteById(Integer id) {
+        return technicianDao.deleteById(id);
     }
 
-    public boolean createTechnician(Technician technician) {
-        return technicianDao.createTechnician(technician);
+    @Override
+    public String update(Technician updateObj) {
+        return technicianDao.update(updateObj);
     }
 }

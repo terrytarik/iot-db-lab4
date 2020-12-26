@@ -12,91 +12,99 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TechnicianDao {
+public class TechnicianDao implements GeneralDAO<Technician, Integer> {
+    private static final String getAllQuery = "SELECT * FROM technician";
+    private static final String getByIdQuery = "SELECT * FROM technician WHERE id = ?";
+    private static final String createQuery = "INSERT INTO technician (name, surname) VALUE (?, ?)";
+    private static final String deleteQuery = "DELETE FROM technician WHERE id = ?";
+    private static final String updateQuery = "UPDATE technician SET name = ?, surname = ? WHERE id = ?";
+
+    @Override
     public List<Technician> getAll() {
         List<Technician> technicians = new ArrayList<>();
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection connection = DriverManager.getConnection(DB_URL.value, DB_USERNAME.value, DB_PASSWORD.value);
-            Statement stmt = connection.createStatement();
-            ResultSet rs=stmt.executeQuery("select * from technician");
-            while (rs.next()) {
+        try (Connection connection = DriverManager.getConnection(DB_URL.value, DB_USERNAME.value, DB_PASSWORD.value);
+             Statement statement = connection.createStatement();
+             ResultSet resultSet = statement.executeQuery(getAllQuery)) {
+            while (resultSet.next()) {
                 Technician technician = new Technician();
-                technician.setId(rs.getInt("id"));
-                technician.setName(rs.getString("name"));
-                technician.setSurname(rs.getString("surname"));
+                technician.setId(resultSet.getInt("id"));
+                technician.setName(resultSet.getString("name"));
+                technician.setSurname(resultSet.getString("surname"));
                 technicians.add(technician);
             }
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return technicians;
     }
 
-    public Technician getTechnicianById(int id) {
+    @Override
+    public Technician getById(Integer id) {
         Technician technician = new Technician();
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection connection = DriverManager.getConnection(DB_URL.value, DB_USERNAME.value, DB_PASSWORD.value);
-            PreparedStatement stmt = connection.prepareStatement("select * from technician where id = ?");
-            stmt.setString(1, String.valueOf(id));
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
+        ResultSet resultSet = null;
+        try (Connection connection = DriverManager.getConnection(DB_URL.value, DB_USERNAME.value, DB_PASSWORD.value);
+             PreparedStatement statement = connection.prepareStatement(getByIdQuery)) {
+            statement.setString(1, String.valueOf(id));
+            resultSet = statement.executeQuery();
+            while (resultSet.next()) {
                 technician.setId(id);
-                technician.setName(rs.getString("name"));
-                technician.setName(rs.getString("surname"));
+                technician.setName(resultSet.getString("name"));
+                technician.setSurname(resultSet.getString("surname"));
             }
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
+        } finally {
+            if (resultSet != null) {
+                try {
+                    resultSet.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         return technician;
     }
 
-    public boolean createTechnician(Technician technician) {
+    @Override
+    public String create(Technician createObj) {
         int result = 0;
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection connection = DriverManager.getConnection(DB_URL.value, DB_USERNAME.value, DB_PASSWORD.value);
-            PreparedStatement stmt = connection.prepareStatement("insert into technician (name, surname) values (?, ?)");
-            stmt.setString(1, technician.getName());
-            stmt.setString(2, technician.getSurname());
-            result = stmt.executeUpdate();
-
-        } catch (ClassNotFoundException | SQLException e) {
+        try (Connection connection = DriverManager.getConnection(DB_URL.value, DB_USERNAME.value, DB_PASSWORD.value);
+             PreparedStatement statement = connection.prepareStatement(createQuery)) {
+            statement.setString(1, createObj.getName());
+            statement.setString(2, createObj.getSurname());
+            result = statement.executeUpdate();
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-        return result != 0;
+        return result != 0 ? "Success" : "Fail";
     }
 
-    public boolean deleteTechnician(int id) {
+    @Override
+    public String deleteById(Integer id) {
         int result = 0;
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection connection = DriverManager.getConnection(DB_URL.value, DB_USERNAME.value, DB_PASSWORD.value);
-            PreparedStatement stmt = connection.prepareStatement("delete from technician where id = ?");
-            stmt.setString(1, String.valueOf(id));
-            result = stmt.executeUpdate();
+        try (Connection connection = DriverManager.getConnection(DB_URL.value, DB_USERNAME.value, DB_PASSWORD.value);
+             PreparedStatement statement = connection.prepareStatement(deleteQuery);) {
+            statement.setInt(1, id);
+            result = statement.executeUpdate();
 
-        } catch (ClassNotFoundException | SQLException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-        return result != 0;
+        return result != 0 ? "Success" : "Fail";
     }
 
-    public boolean updateTechnician(Technician technician) {
+    @Override
+    public String update(Technician updateObj) {
         int result = 0;
-        try {
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection connection = DriverManager.getConnection(DB_URL.value, DB_USERNAME.value, DB_PASSWORD.value);
-            PreparedStatement stmt = connection.prepareStatement("update technician set name = ?, surname = ? where id = ?");
-            stmt.setString(1, technician.getName());
-            stmt.setString(2, technician.getSurname());
-            stmt.setInt(3, technician.getId());
-            result = stmt.executeUpdate();
-
-        } catch (ClassNotFoundException | SQLException e) {
+        try (Connection connection = DriverManager.getConnection(DB_URL.value, DB_USERNAME.value, DB_PASSWORD.value);
+             PreparedStatement statement = connection.prepareStatement(updateQuery)) {
+            statement.setString(1, updateObj.getName());
+            statement.setString(2, updateObj.getSurname());
+            statement.setInt(3, updateObj.getId());
+            result = statement.executeUpdate();
+        } catch (SQLException e) {
             e.printStackTrace();
         }
-        return result != 0;
+        return result != 0 ? "Success" : "Fail";
     }
 }

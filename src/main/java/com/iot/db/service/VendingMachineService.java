@@ -4,30 +4,32 @@ import com.iot.db.dao.VendingMachineDao;
 import com.iot.db.entity.VendingMachine;
 import java.util.List;
 
-public class VendingMachineService {
-    private VendingMachineDao dao;
+public class VendingMachineService implements GeneralService<VendingMachine, Integer>{
+    private VendingMachineDao dao = new VendingMachineDao();
 
-    public VendingMachineService() {
-    }
 
+    @Override
     public List<VendingMachine> getAll() {
         return dao.getAll();
     }
 
-
-    public VendingMachine getVendingMachineById(int id) {
-        return dao.getVendingMachineById(id);
+    @Override
+    public VendingMachine getById(Integer id) {
+        return dao.getById(id);
     }
 
-    public boolean deleteVendingMachine(int id) {
-        return dao.deleteVendingMachine(id);
+    @Override
+    public String create(VendingMachine createObj) {
+        return dao.create(createObj);
     }
 
-    public boolean createVendingMachine(VendingMachine vendingMachine) {
-        return dao.createVendingMachine(vendingMachine);
+    @Override
+    public String deleteById(Integer id) {
+        return dao.deleteById(id);
     }
 
-    public boolean updateVendingMachine(VendingMachine vendingMachine) {
-        return dao.updateVendingMachine(vendingMachine);
+    @Override
+    public String update(VendingMachine updateObj) {
+        return dao.update(updateObj);
     }
 }

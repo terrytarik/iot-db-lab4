@@ -2,28 +2,34 @@ package com.iot.db.controller;
 
 import com.iot.db.entity.ItemLoading;
 import com.iot.db.service.ItemLoadingService;
-import java.time.LocalDateTime;
 import java.util.List;
 
-public class ItemLoadingController {
-    ItemLoadingService service;
+public class ItemLoadingController implements GeneralController<ItemLoading, String>{
+    private ItemLoadingService service = new ItemLoadingService();
+
+
+    @Override
     public List<ItemLoading> getAll() {
         return service.getAll();
     }
 
-    public ItemLoading getItemLoadingByLastLoading(LocalDateTime parse) {
-        return service.getItemLoadingByLastLoading(parse);
+    @Override
+    public ItemLoading getById(String id) {
+        return service.getById(id);
     }
 
-    public boolean deleteItemLoading(LocalDateTime parse) {
-        return service.deleteItemLoading(parse);
+    @Override
+    public String create(ItemLoading createObj) {
+        return service.create(createObj);
     }
 
-    public boolean createItemLoading(ItemLoading itemLoading) {
-        return service.createItemLoading(itemLoading);
+    @Override
+    public String deleteById(String id) {
+        return service.deleteById(id);
     }
 
-    public boolean updateItemLoading(ItemLoading itemLoading) {
-        return service.updateItemLoading(itemLoading);
+    @Override
+    public String update(ItemLoading updateObj) {
+        return service.update(updateObj);
     }
 }
