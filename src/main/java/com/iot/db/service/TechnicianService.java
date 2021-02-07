@@ -18,8 +18,8 @@ public class TechnicianService implements GeneralService<Technician, Integer>{
     }
 
     @Override
-    public String create(Technician createObj) {
-        return technicianDao.create(createObj);
+    public String save(Technician createObj) {
+        return technicianDao.save(createObj);
     }
 
     @Override
@@ -27,8 +27,4 @@ public class TechnicianService implements GeneralService<Technician, Integer>{
         return technicianDao.deleteById(id);
     }
 
-    @Override
-    public String update(Technician updateObj) {
-        return technicianDao.update(updateObj);
-    }
 }

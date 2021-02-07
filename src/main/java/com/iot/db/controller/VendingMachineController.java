@@ -19,8 +19,8 @@ public class VendingMachineController implements GeneralController<VendingMachin
     }
 
     @Override
-    public String create(VendingMachine createObj) {
-        return service.create(createObj);
+    public String save(VendingMachine createObj) {
+        return service.save(createObj);
     }
 
     @Override
@@ -28,8 +28,4 @@ public class VendingMachineController implements GeneralController<VendingMachin
         return service.deleteById(id);
     }
 
-    @Override
-    public String update(VendingMachine updateObj) {
-        return service.update(updateObj);
-    }
 }

@@ -7,9 +7,8 @@ public interface GeneralController<T, P> {
 
     T getById(P id);
 
-    String create(T createObj);
+    String save(T createObj);
 
     String deleteById(P id);
 
-    String update(T updateObj);
 }

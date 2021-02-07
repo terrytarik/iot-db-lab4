@@ -1,32 +1,21 @@
 package com.iot.db.view;
 
-import com.iot.db.controller.ItemLoadingController;
-import com.iot.db.controller.MenuController;
-import com.iot.db.controller.MoneyCollectionController;
-import com.iot.db.controller.TechnicianController;
-import com.iot.db.controller.VendingMachineController;
-import com.iot.db.entity.ItemLoading;
-import com.iot.db.entity.Menu;
-import com.iot.db.entity.MoneyCollection;
-import com.iot.db.entity.Technician;
-import com.iot.db.entity.VendingMachine;
-import java.sql.SQLException;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Scanner;
+import com.iot.db.controller.*;
+import com.iot.db.entity.*;
+import java.sql.Timestamp;
+import java.util.*;
 
 public class View {
 
     private final VendingMachineController vendingMachineController = new VendingMachineController();
     private final TechnicianController technicianController = new TechnicianController();
     private final MoneyCollectionController moneyCollectionController = new MoneyCollectionController();
-    private final ItemLoadingController itemLoadingController = new ItemLoadingController();
     private final MenuController menuController = new MenuController();
-
+    private final MenuItemController menuItemController = new MenuItemController();
 
     private final Map<String, String> menu;
     private final Map<String, Printable> methodsMenu;
-    private static final Scanner INPUT = new Scanner(System.in, "ISO-8859-1");
+    private static final Scanner INPUT = new Scanner(System.in);
 
     public View() {
         menu = new LinkedHashMap<>();
@@ -59,11 +48,11 @@ public class View {
         menu.put("19", "19 - Delete item loading");
         menu.put("20", "20 - Update item loading\n");
 
-        menu.put("21", "21 - Get item loadings");
-        menu.put("22", "22 - Get item loading by ID");
-        menu.put("23", "23 - Create item loading");
-        menu.put("24", "24 - Delete item loading");
-        menu.put("25", "25 - Update item loading\n");
+        menu.put("21", "21 - Get menu");
+        menu.put("22", "22 - Get menu by ID");
+        menu.put("23", "23 - Create menu ");
+        menu.put("24", "24 - Delete menu ");
+        menu.put("25", "25 - Update menu \n");
 
         methodsMenu.put("S", this::showMenu);
 
@@ -85,11 +74,11 @@ public class View {
         methodsMenu.put("14", this::deleteMoneyCollection);
         methodsMenu.put("15", this::updateMoneyCollection);
 
-        methodsMenu.put("16", this::getAllItemLoadings);
-        methodsMenu.put("17", this::getItemLoadingById);
-        methodsMenu.put("18", this::createItemLoading);
-        methodsMenu.put("19", this::deleteItemLoading);
-        methodsMenu.put("20", this::updateItemLoading);
+        methodsMenu.put("16", this::getAllMenuItem);
+        methodsMenu.put("17", this::getMenuItemById);
+        methodsMenu.put("18", this::createMenuItem);
+        methodsMenu.put("19", this::deleteMenuItem);
+        methodsMenu.put("20", this::updateMenuItem);
 
         methodsMenu.put("21", this::getAllMenus);
         methodsMenu.put("22", this::getMenuById);
@@ -111,10 +100,13 @@ public class View {
     }
 
     private void createVendingMachine() {
-        System.out.println("\nEnter adress");
-        String adress = INPUT.next();
-        VendingMachine vendingMachine = new VendingMachine(adress);
-        System.out.println(vendingMachineController.create(vendingMachine));
+        System.out.println("\nEnter address");
+        String address = INPUT.next();
+        System.out.println("\nEnter menu id");
+        Integer menuId = INPUT.nextInt();
+        Menu menu = menuController.getById(menuId);
+        VendingMachine vendingMachine = new VendingMachine(address, menu);
+        System.out.println(vendingMachineController.save(vendingMachine));
     }
 
     private void deleteVendingMachine() {
@@ -126,10 +118,14 @@ public class View {
     private void updateVendingMachine() {
         System.out.println("\nEnter ID");
         int id = INPUT.nextInt();
-        System.out.println("\nEnter adress");
-        String adress = INPUT.next();
-        VendingMachine vendingMachine = new VendingMachine(id, adress);
-        System.out.println(vendingMachineController.update(vendingMachine));
+        System.out.println("\nEnter address");
+        String address = INPUT.next();
+        System.out.println("\nEnter menu id");
+        Integer menuId = INPUT.nextInt();
+        Menu menu = menuController.getById(menuId);
+
+        VendingMachine vendingMachine = new VendingMachine(id, address, menu);
+        System.out.println(vendingMachineController.save(vendingMachine));
     }
 
     private void getAllTechnicians() {
@@ -156,7 +152,7 @@ public class View {
         String surname = INPUT.next();
 
         Technician technician = new Technician(name, surname);
-        System.out.println(technicianController.create(technician));
+        System.out.println(technicianController.save(technician));
     }
 
     private void updateTechnician() {
@@ -167,7 +163,7 @@ public class View {
         System.out.println("\nEnter surname");
         String surname = INPUT.next();
         Technician technician = new Technician(id, name, surname);
-        System.out.println(technicianController.update(technician));
+        System.out.println(technicianController.save(technician));
     }
 
     private void getAllMoneyCollections() {
@@ -176,17 +172,15 @@ public class View {
     }
 
     private void getMoneyCollectionById() {
-        INPUT.nextLine();
-        System.out.println("\nEnter date of last collection (yyyy-MM-dd HH:mm:ss)");
-        String lastCollection = INPUT.nextLine();
-        System.out.println(moneyCollectionController.getById(lastCollection));
+        System.out.println("\nEnter id of last collection");
+        Integer id = INPUT.nextInt();
+        System.out.println(moneyCollectionController.getById(id));
     }
 
     private void deleteMoneyCollection() {
-        INPUT.nextLine();
-        System.out.println("\nEnter date of last collection you want to delete (yyyy-MM-dd HH:mm:ss)");
-        String lastCollection = INPUT.nextLine();
-        System.out.println(moneyCollectionController.deleteById(lastCollection));
+        System.out.println("\nEnter id of last collection you want to delete");
+        Integer id = INPUT.nextInt();
+        System.out.println(moneyCollectionController.deleteById(id));
     }
 
     private void createMoneyCollection() {
@@ -194,74 +188,33 @@ public class View {
         System.out.println("\nEnter date of last collection (yyyy-MM-dd HH:mm:ss)");
         String lastCollection = INPUT.nextLine();
         System.out.println("\nEnter money amount");
-        int moneyAmount = INPUT.nextInt();
+        Float moneyAmount = INPUT.nextFloat();
         System.out.println("\nEnter vending machine id");
         int vendingMachineId = INPUT.nextInt();
-
-        MoneyCollection moneyCollection = new MoneyCollection(lastCollection, moneyAmount, vendingMachineId);
-        System.out.println(moneyCollectionController.create(moneyCollection));
+        VendingMachine vendingMachine = vendingMachineController.getById(vendingMachineId);
+        System.out.println("\nEnter technician id");
+        int technicianId = INPUT.nextInt();
+        Technician technician = technicianController.getById(technicianId);
+        MoneyCollection moneyCollection = new MoneyCollection(Timestamp.valueOf(lastCollection), moneyAmount, vendingMachine, technician);
+        System.out.println(moneyCollectionController.save(moneyCollection));
     }
 
     private void updateMoneyCollection() {
+        System.out.println("\nEnter id of last collection");
+        Integer id = INPUT.nextInt();
         INPUT.nextLine();
         System.out.println("\nEnter date of last collection (yyyy-MM-dd HH:mm:ss)");
         String lastCollection = INPUT.nextLine();
         System.out.println("\nEnter money amount");
-        int moneyAmount = INPUT.nextInt();
+        Float moneyAmount = INPUT.nextFloat();
         System.out.println("\nEnter vending machine id");
         int vendingMachineId = INPUT.nextInt();
-
-        MoneyCollection moneyCollection = new MoneyCollection(lastCollection, moneyAmount, vendingMachineId);
-        System.out.println(moneyCollectionController.update(moneyCollection));
-    }
-
-    private void getAllItemLoadings() {
-        System.out.println("\nItem soadings:");
-        System.out.println(itemLoadingController.getAll());
-    }
-
-    private void getItemLoadingById() throws SQLException {
-        INPUT.nextLine();
-        System.out.println("\nEnter date of last loading (yyyy-MM-dd HH:mm:ss)");
-        String lastLoading = INPUT.nextLine();
-        System.out.println(itemLoadingController.getById(lastLoading));
-    }
-
-    private void deleteItemLoading() throws SQLException {
-        INPUT.nextLine();
-        System.out.println("\nEnter date of last loading you want to delete (yyyy-MM-dd HH:mm:ss)");
-        String lastLoading = INPUT.nextLine();
-        System.out.println(itemLoadingController.deleteById(lastLoading));
-    }
-
-    private void createItemLoading() throws SQLException {
-        INPUT.nextLine();
-        System.out.println("\nEnter date of last loading");
-        String lastLoading = INPUT.nextLine();
-        System.out.println("\nEnter money amount");
-        int moneyAmount = INPUT.nextInt();
+        VendingMachine vendingMachine = vendingMachineController.getById(vendingMachineId);
         System.out.println("\nEnter technician id");
         int technicianId = INPUT.nextInt();
-        System.out.println("\nEnter vending machine id");
-        int vendingMachineId = INPUT.nextInt();
-
-        ItemLoading itemLoading = new ItemLoading(lastLoading, moneyAmount, technicianId, vendingMachineId);
-        System.out.println(itemLoadingController.create(itemLoading));
-    }
-
-    private void updateItemLoading() throws SQLException {
-        INPUT.nextLine();
-        System.out.println("\nEnter date of last loading");
-        String lastLoading = INPUT.nextLine();
-        System.out.println("\nEnter money amount");
-        int moneyAmount = INPUT.nextInt();
-        System.out.println("\nEnter technician id");
-        int technicianId = INPUT.nextInt();
-        System.out.println("\nEnter vending machine id");
-        int vendingMachineId = INPUT.nextInt();
-
-        ItemLoading itemLoading = new ItemLoading(lastLoading, moneyAmount, technicianId, vendingMachineId);
-        System.out.println(itemLoadingController.update(itemLoading));
+        Technician technician = technicianController.getById(technicianId);
+        MoneyCollection moneyCollection = new MoneyCollection(id, Timestamp.valueOf(lastCollection), moneyAmount, vendingMachine, technician);
+        System.out.println(moneyCollectionController.save(moneyCollection));
     }
 
     private void getAllMenus() {
@@ -278,10 +231,18 @@ public class View {
     private void createMenu() {
         System.out.println("\nEnter name");
         String name = INPUT.next();
-        System.out.println("\nEnter vending machine id");
-        int vendingMachineId = INPUT.nextInt();
-        Menu menu = new Menu(name, vendingMachineId);
-        System.out.println(menuController.create(menu));
+        System.out.println("\nEnter count of menu item");
+        int count = INPUT.nextInt();
+        System.out.println("Enter ids of items");
+        int itemId;
+        List<MenuItem> menuItems = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            itemId = INPUT.nextInt();
+            MenuItem item = menuItemController.getById(itemId);
+            menuItems.add(item);
+        }
+        Menu menu = new Menu(name, menuItems);
+        System.out.println(menuController.save(menu));
     }
 
     private void deleteMenu() {
@@ -294,12 +255,62 @@ public class View {
         System.out.println("\nEnter ID");
         int id = INPUT.nextInt();
         System.out.println("\nEnter name");
-        String adress = INPUT.next();
-        System.out.println("\nEnter vending machine id");
-        int vendingMachineId = INPUT.nextInt();
-        Menu menu = new Menu(id, adress, vendingMachineId);
-        System.out.println(menuController.update(menu));
+        String name = INPUT.next();
+        System.out.println("\nEnter count of menu item");
+        int count = INPUT.nextInt();
+        System.out.println("Enter ids of items");
+        int itemId;
+        List<MenuItem> menuItems = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            itemId = INPUT.nextInt();
+            MenuItem item = menuItemController.getById(itemId);
+            menuItems.add(item);
+        }
+        Menu menu = new Menu(id, name, menuItems);
+        System.out.println(menuController.save(menu));
     }
+
+    private void getAllMenuItem () {
+        System.out.println("Menu items");
+        System.out.println(menuItemController.getAll());
+    }
+
+    private void getMenuItemById () {
+        System.out.println("Enter item id");
+        Integer id = INPUT.nextInt();
+        System.out.println(menuItemController.getById(id));
+    }
+
+    private void createMenuItem () {
+        System.out.println("Enter item name");
+        String name = INPUT.next();
+        System.out.println("Enter item price");
+        Float price = INPUT.nextFloat();
+        System.out.println("Enter item brand");
+        String brand = INPUT.next();
+        MenuItem menuItem = new MenuItem(name, price, brand);
+        System.out.println(menuItemController.save(menuItem));
+    }
+
+    private void deleteMenuItem () {
+        System.out.println("Enter item id you want to delete");
+        Integer id = INPUT.nextInt();
+        System.out.println(menuItemController.deleteById(id));
+    }
+
+    private void updateMenuItem () {
+        System.out.println("Enter item id");
+        Integer id = INPUT.nextInt();
+        System.out.println("Enter item name");
+        String name = INPUT.next();
+        System.out.println("Enter item price");
+        Float price = INPUT.nextFloat();
+        System.out.println("Enter item brand");
+        String brand = INPUT.next();
+        MenuItem menuItem = new MenuItem(id, name, price, brand);
+        System.out.println(menuItemController.save(menuItem));
+    }
+
 
     private void showMenu() {
         System.out.println("\nMENU:");

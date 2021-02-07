@@ -17,8 +17,8 @@ public class MenuController implements GeneralController<Menu, Integer> {
     }
 
     @Override
-    public String create(Menu createObj) {
-        return service.create(createObj);
+    public String save(Menu createObj) {
+        return service.save(createObj);
     }
 
     @Override
@@ -26,8 +26,4 @@ public class MenuController implements GeneralController<Menu, Integer> {
         return service.deleteById(id);
     }
 
-    @Override
-    public String update(Menu updateObj) {
-        return service.update(updateObj);
-    }
 }

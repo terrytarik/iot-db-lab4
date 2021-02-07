@@ -1,59 +1,50 @@
 package com.iot.db.dao;
 
-import static com.iot.db.dao.Constants.*;
-
 import com.iot.db.config.HibernateUtils;
-import com.iot.db.entity.MoneyCollection;
+import com.iot.db.entity.MenuItem;
 import com.iot.db.entity.VendingMachine;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Session;
 
-public class MoneyCollectionDao implements GeneralDAO<MoneyCollection, Integer> {
+public class MenuItemDao implements GeneralDAO<MenuItem, Integer> {
     private Session session;
 
     @Override
-    public List<MoneyCollection> getAll() {
-        List<MoneyCollection> moneyCollections;
+    public List<MenuItem> getAll() {
+        List<MenuItem> menuItems;
         try {
             session = HibernateUtils.getSessionFactory().openSession();
             session.beginTransaction();
-            moneyCollections =
-                session.createQuery("FROM MoneyCollection vm", MoneyCollection.class).getResultList();
+            menuItems =
+                session.createQuery("FROM MenuItem mi", MenuItem.class).getResultList();
             session.getTransaction().commit();
         } finally {
             if (session != null) {
                 session.close();
             }
         }
-        return moneyCollections;
+        return menuItems;
     }
 
     @Override
-    public MoneyCollection getById(Integer id) {
-        MoneyCollection moneyCollection;
+    public MenuItem getById(Integer id) {
+        MenuItem menuItem;
         try {
             session = HibernateUtils.getSessionFactory().openSession();
             session.beginTransaction();
-            moneyCollection =
-                session.get(MoneyCollection.class, id);
+            menuItem =
+                session.get(MenuItem.class, id);
             session.getTransaction().commit();
         } finally {
             if (session != null) {
                 session.close();
             }
         }
-        return moneyCollection;
+        return menuItem;
     }
 
     @Override
-    public String save(MoneyCollection createObj) {
+    public String save(MenuItem createObj) {
         try {
             session = HibernateUtils.getSessionFactory().openSession();
             session.beginTransaction();
@@ -73,9 +64,9 @@ public class MoneyCollectionDao implements GeneralDAO<MoneyCollection, Integer> 
         try {
             session = HibernateUtils.getSessionFactory().openSession();
             session.beginTransaction();
-            MoneyCollection moneyCollection = session.get(MoneyCollection.class, id);
-            if(moneyCollection != null){
-                session.delete(moneyCollection);
+            MenuItem menuItem = session.get(MenuItem.class, id);
+            if(menuItem != null){
+                session.delete(menuItem);
                 result = true;
             }
             session.getTransaction().commit();
