@@ -25,7 +25,8 @@ public class MoneyCollection {
     public MoneyCollection() {
     }
 
-    public MoneyCollection(Timestamp lastCollection, Float moneyAmount, VendingMachine vendingMachine, Technician technician) {
+    public MoneyCollection(Timestamp lastCollection, Float moneyAmount, VendingMachine vendingMachine,
+                           Technician technician) {
         this.lastCollection = lastCollection;
         this.moneyAmount = moneyAmount;
         this.vendingMachine = vendingMachine;

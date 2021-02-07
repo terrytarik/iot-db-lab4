@@ -195,7 +195,8 @@ public class View {
         System.out.println("\nEnter technician id");
         int technicianId = INPUT.nextInt();
         Technician technician = technicianController.getById(technicianId);
-        MoneyCollection moneyCollection = new MoneyCollection(Timestamp.valueOf(lastCollection), moneyAmount, vendingMachine, technician);
+        MoneyCollection moneyCollection =
+            new MoneyCollection(Timestamp.valueOf(lastCollection), moneyAmount, vendingMachine, technician);
         System.out.println(moneyCollectionController.save(moneyCollection));
     }
 
@@ -213,7 +214,8 @@ public class View {
         System.out.println("\nEnter technician id");
         int technicianId = INPUT.nextInt();
         Technician technician = technicianController.getById(technicianId);
-        MoneyCollection moneyCollection = new MoneyCollection(id, Timestamp.valueOf(lastCollection), moneyAmount, vendingMachine, technician);
+        MoneyCollection moneyCollection =
+            new MoneyCollection(id, Timestamp.valueOf(lastCollection), moneyAmount, vendingMachine, technician);
         System.out.println(moneyCollectionController.save(moneyCollection));
     }
 
@@ -270,18 +272,18 @@ public class View {
         System.out.println(menuController.save(menu));
     }
 
-    private void getAllMenuItem () {
+    private void getAllMenuItem() {
         System.out.println("Menu items");
         System.out.println(menuItemController.getAll());
     }
 
-    private void getMenuItemById () {
+    private void getMenuItemById() {
         System.out.println("Enter item id");
         Integer id = INPUT.nextInt();
         System.out.println(menuItemController.getById(id));
     }
 
-    private void createMenuItem () {
+    private void createMenuItem() {
         System.out.println("Enter item name");
         String name = INPUT.next();
         System.out.println("Enter item price");
@@ -292,13 +294,13 @@ public class View {
         System.out.println(menuItemController.save(menuItem));
     }
 
-    private void deleteMenuItem () {
+    private void deleteMenuItem() {
         System.out.println("Enter item id you want to delete");
         Integer id = INPUT.nextInt();
         System.out.println(menuItemController.deleteById(id));
     }
 
-    private void updateMenuItem () {
+    private void updateMenuItem() {
         System.out.println("Enter item id");
         Integer id = INPUT.nextInt();
         System.out.println("Enter item name");

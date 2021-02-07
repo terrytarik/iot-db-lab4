@@ -1,17 +1,7 @@
 package com.iot.db.dao;
 
-import static com.iot.db.dao.Constants.*;
-
 import com.iot.db.config.HibernateUtils;
 import com.iot.db.entity.MoneyCollection;
-import com.iot.db.entity.VendingMachine;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
 import java.util.List;
 import org.hibernate.Session;
 
@@ -74,7 +64,7 @@ public class MoneyCollectionDao implements GeneralDAO<MoneyCollection, Integer> 
             session = HibernateUtils.getSessionFactory().openSession();
             session.beginTransaction();
             MoneyCollection moneyCollection = session.get(MoneyCollection.class, id);
-            if(moneyCollection != null){
+            if (moneyCollection != null) {
                 session.delete(moneyCollection);
                 result = true;
             }

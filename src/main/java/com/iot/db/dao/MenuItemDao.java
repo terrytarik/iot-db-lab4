@@ -2,7 +2,6 @@ package com.iot.db.dao;
 
 import com.iot.db.config.HibernateUtils;
 import com.iot.db.entity.MenuItem;
-import com.iot.db.entity.VendingMachine;
 import java.util.List;
 import org.hibernate.Session;
 
@@ -65,7 +64,7 @@ public class MenuItemDao implements GeneralDAO<MenuItem, Integer> {
             session = HibernateUtils.getSessionFactory().openSession();
             session.beginTransaction();
             MenuItem menuItem = session.get(MenuItem.class, id);
-            if(menuItem != null){
+            if (menuItem != null) {
                 session.delete(menuItem);
                 result = true;
             }
