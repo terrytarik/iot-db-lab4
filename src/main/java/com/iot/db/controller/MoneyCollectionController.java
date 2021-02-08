@@ -44,8 +44,8 @@ public class MoneyCollectionController {
 
     @PutMapping
     public MoneyCollection update(@RequestBody MoneyCollection moneyCollection,
-                                @RequestParam Integer technicianId,
-                                @RequestParam Integer vendingMachineId) {
+                                  @RequestParam Integer technicianId,
+                                  @RequestParam Integer vendingMachineId) {
         Technician technician = technicianService.findById(technicianId);
         VendingMachine vendingMachine = vendingMachineService.getById(vendingMachineId);
         moneyCollection.setTechnician(technician);

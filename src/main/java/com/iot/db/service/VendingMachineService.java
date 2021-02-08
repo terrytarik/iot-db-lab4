@@ -16,7 +16,8 @@ public class VendingMachineService {
     }
 
     public VendingMachine getById(Integer id) {
-        return dao.findById(id).orElseThrow(() -> new RuntimeException("The vending machine does not exist by this id: " + id));
+        return dao.findById(id)
+            .orElseThrow(() -> new RuntimeException("The vending machine does not exist by this id: " + id));
     }
 
     public VendingMachine save(VendingMachine createObj) {

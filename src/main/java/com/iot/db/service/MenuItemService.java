@@ -24,6 +24,6 @@ public class MenuItemService {
     }
 
     public void deleteMenuItemById(Integer id) {
-         dao.deleteById(id);
+        dao.deleteById(id);
     }
 }

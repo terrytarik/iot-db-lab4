@@ -24,6 +24,6 @@ public class MoneyCollectionService {
     }
 
     public void deleteById(Integer id) {
-         dao.deleteById(id);
+        dao.deleteById(id);
     }
 }

@@ -37,5 +37,4 @@ public class MenuItem {
         inverseJoinColumns = {@JoinColumn(name = "menu_id")}
     )
     private List<Menu> menuList;
-
 }
