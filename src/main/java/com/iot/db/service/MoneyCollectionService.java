@@ -3,28 +3,27 @@ package com.iot.db.service;
 import com.iot.db.dao.MoneyCollectionDao;
 import com.iot.db.entity.MoneyCollection;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-public class MoneyCollectionService implements GeneralService<MoneyCollection, Integer>{
-    private MoneyCollectionDao dao = new MoneyCollectionDao();
+@Service
+public class MoneyCollectionService {
+    @Autowired
+    private MoneyCollectionDao dao;
 
-    @Override
-    public List<MoneyCollection> getAll() {
-        return dao.getAll();
+    public List<MoneyCollection> findAll() {
+        return dao.findAll();
     }
 
-    @Override
-    public MoneyCollection getById(Integer id) {
-        return dao.getById(id);
+    public MoneyCollection findById(Integer id) {
+        return dao.findById(id).orElseThrow();
     }
 
-    @Override
-    public String save(MoneyCollection createObj) {
-        return dao.save(createObj);
+    public MoneyCollection save(MoneyCollection moneyCollection) {
+        return dao.save(moneyCollection);
     }
 
-    @Override
-    public String deleteById(Integer id) {
-        return dao.deleteById(id);
+    public void deleteById(Integer id) {
+         dao.deleteById(id);
     }
-
 }

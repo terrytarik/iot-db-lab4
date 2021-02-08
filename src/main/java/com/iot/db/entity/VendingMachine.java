@@ -1,9 +1,19 @@
 package com.iot.db.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.List;
 import javax.persistence.*;
+import lombok.*;
 
 @Entity
+@Builder
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
+@ToString
 @Table(name = "vending_machine")
 public class VendingMachine {
     @Id
@@ -13,64 +23,11 @@ public class VendingMachine {
     @Column
     private String address;
 
-    @OneToMany(mappedBy = "vendingMachine")
+    @JsonIgnore
+    @OneToMany(mappedBy = "vendingMachine", cascade = {CascadeType.ALL})
     private List<MoneyCollection> moneyCollections;
 
     @ManyToOne
     @JoinColumn(name = "menu_id")
     private Menu menu;
-
-    public VendingMachine() {
-    }
-
-    public VendingMachine(String address, Menu menu) {
-        this.address = address;
-        this.menu = menu;
-    }
-
-    public VendingMachine(Integer id, String address, Menu menu) {
-        this.id = id;
-        this.address = address;
-        this.menu = menu;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public List<MoneyCollection> getMoneyCollections() {
-        return moneyCollections;
-    }
-
-    public void setMoneyCollections(List<MoneyCollection> moneyCollections) {
-        this.moneyCollections = moneyCollections;
-    }
-
-    public Menu getMenu() {
-        return menu;
-    }
-
-    public void setMenu(Menu menu) {
-        this.menu = menu;
-    }
-
-    @Override
-    public String toString() {
-        return "VendingMachine{" +
-            "id=" + id +
-            ", address='" + address + '\'' +
-            '}';
-    }
 }

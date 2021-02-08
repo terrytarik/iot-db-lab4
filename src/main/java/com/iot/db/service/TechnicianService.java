@@ -3,28 +3,29 @@ package com.iot.db.service;
 import com.iot.db.dao.TechnicianDao;
 import com.iot.db.entity.Technician;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
-public class TechnicianService implements GeneralService<Technician, Integer>{
-    private TechnicianDao technicianDao = new TechnicianDao();
+@Service
+public class TechnicianService {
+    @Autowired
+    private TechnicianDao dao;
 
-    @Override
-    public List<Technician> getAll() {
-        return technicianDao.getAll();
+    public List<Technician> findAll() {
+        return dao.findAll();
     }
 
-    @Override
-    public Technician getById(Integer id) {
-        return technicianDao.getById(id);
+    public Technician findById(Integer id) {
+        return dao.findById(id).orElseThrow();
     }
 
-    @Override
-    public String save(Technician createObj) {
-        return technicianDao.save(createObj);
+    public Technician save(Technician technician) {
+        return dao.save(technician);
     }
 
-    @Override
-    public String deleteById(Integer id) {
-        return technicianDao.deleteById(id);
+    public void deleteById(Integer id) {
+        dao.deleteById(id);
     }
-
 }

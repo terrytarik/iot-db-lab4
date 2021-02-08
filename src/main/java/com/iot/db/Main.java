@@ -1,9 +1,11 @@
 package com.iot.db;
 
-import com.iot.db.view.View;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+@SpringBootApplication
 public class Main {
     public static void main(String[] args) {
-        new View().show();
+        SpringApplication.run(Main.class, args);
     }
 }

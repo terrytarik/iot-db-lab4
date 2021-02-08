@@ -3,27 +3,27 @@ package com.iot.db.service;
 import com.iot.db.dao.VendingMachineDao;
 import com.iot.db.entity.VendingMachine;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-public class VendingMachineService implements GeneralService<VendingMachine, Integer>{
-    private VendingMachineDao dao = new VendingMachineDao();
+@Service
+public class VendingMachineService {
+    @Autowired
+    private VendingMachineDao dao;
 
-    @Override
     public List<VendingMachine> getAll() {
-        return dao.getAll();
+        return dao.findAll();
     }
 
-    @Override
     public VendingMachine getById(Integer id) {
-        return dao.getById(id);
+        return dao.findById(id).orElseThrow(() -> new RuntimeException("The vending machine does not exist by this id: " + id));
     }
 
-    @Override
-    public String save(VendingMachine createObj) {
+    public VendingMachine save(VendingMachine createObj) {
         return dao.save(createObj);
     }
 
-    @Override
-    public String deleteById(Integer id) {
-        return dao.deleteById(id);
+    public void deleteById(Integer id) {
+        dao.deleteById(id);
     }
 }

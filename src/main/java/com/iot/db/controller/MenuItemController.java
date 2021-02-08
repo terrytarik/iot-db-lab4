@@ -1,29 +1,57 @@
 package com.iot.db.controller;
 
+import com.iot.db.entity.Menu;
 import com.iot.db.entity.MenuItem;
 import com.iot.db.service.MenuItemService;
+import com.iot.db.service.MenuService;
+import java.util.ArrayList;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
-public class MenuItemController implements GeneralController<MenuItem, Integer> {
-    private MenuItemService menuItemService = new MenuItemService();
+@RestController
+@RequestMapping("/menu-item")
+public class MenuItemController {
+    @Autowired
+    private MenuItemService menuItemService;
+    @Autowired
+    private MenuService menuService;
 
-    @Override
-    public List<MenuItem> getAll() {
-        return menuItemService.getAll();
+    @GetMapping
+    public List<MenuItem> findAllMenuItems() {
+        return menuItemService.findAllMenuItems();
     }
 
-    @Override
-    public MenuItem getById(Integer id) {
-        return menuItemService.getById(id);
+    @GetMapping("/{id}")
+    public MenuItem findMenuItemById(@PathVariable Integer id) {
+        return menuItemService.findMenuItemById(id);
     }
 
-    @Override
-    public String save(MenuItem createObj) {
-        return menuItemService.save(createObj);
+    @PostMapping
+    public MenuItem saveMenuItem(@RequestBody MenuItem menuItem, @RequestParam List<Integer> menuIds) {
+        List<Menu> menus = new ArrayList<>();
+        menuIds.forEach(id -> {
+            menus.add(menuService.findMenuById(id));
+        });
+        menuItem.setMenuList(menus);
+        return menuItemService.saveMenuItem(menuItem);
     }
 
-    @Override
-    public String deleteById(Integer id) {
-        return menuItemService.deleteById(id);
+    @PutMapping
+    public MenuItem updateMenuItem(@RequestBody MenuItem menuItem, @RequestParam List<Integer> menuIds) {
+        List<Menu> menus = new ArrayList<>();
+        menuIds.forEach(id -> {
+            menus.add(menuService.findMenuById(id));
+        });
+        menuItem.setMenuList(menus);
+        return menuItemService.saveMenuItem(menuItem);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deleteMenuItemById(@PathVariable Integer id) {
+        menuItemService.deleteMenuItemById(id);
+        return ResponseEntity.ok().build();
     }
 }
