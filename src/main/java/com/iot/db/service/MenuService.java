@@ -3,26 +3,27 @@ package com.iot.db.service;
 import com.iot.db.dao.MenuDao;
 import com.iot.db.entity.Menu;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-public class MenuService implements GeneralService<Menu, Integer> {
-    private MenuDao dao = new MenuDao();
-    @Override
-    public List<Menu> getAll() {
-        return dao.getAll();
+@Service
+public class MenuService {
+    @Autowired
+    private MenuDao dao;
+
+    public List<Menu> getAllMenus() {
+        return dao.findAll();
     }
 
-    @Override
-    public Menu getById(Integer id) {
-        return dao.getById(id);
+    public Menu findMenuById(Integer id) {
+        return dao.findById(id).orElseThrow(() -> new RuntimeException("menu with this id not exist"));
     }
 
-    @Override
-    public String save(Menu createObj) {
+    public Menu saveMenu(Menu createObj) {
         return dao.save(createObj);
     }
 
-    @Override
-    public String deleteById(Integer id) {
-        return dao.deleteById(id);
+    public void deleteById(Integer id) {
+        dao.deleteById(id);
     }
 }

@@ -3,28 +3,40 @@ package com.iot.db.controller;
 import com.iot.db.entity.Technician;
 import com.iot.db.service.TechnicianService;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-public class TechnicianController implements GeneralController<Technician, Integer>{
-    private TechnicianService technicianService = new TechnicianService();
+@RestController
+@RequestMapping("/technician")
+public class TechnicianController {
+    @Autowired
+    private TechnicianService technicianService;
 
-    @Override
-    public List<Technician> getAll() {
-        return technicianService.getAll();
+    @GetMapping
+    public List<Technician> findAll() {
+        return technicianService.findAll();
     }
 
-    @Override
-    public Technician getById(Integer id) {
-        return technicianService.getById(id);
+    @GetMapping("/{id}")
+    public Technician findById(@PathVariable Integer id) {
+        return technicianService.findById(id);
     }
 
-    @Override
-    public String save(Technician createObj) {
-        return technicianService.save(createObj);
+    @PostMapping
+    public Technician save(@RequestBody Technician moneyCollection) {
+        return technicianService.save(moneyCollection);
     }
 
-    @Override
-    public String deleteById(Integer id) {
-        return technicianService.deleteById(id);
+    @PutMapping
+    public Technician update(@RequestBody Technician moneyCollection) {
+        return technicianService.save(moneyCollection);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deleteById(@PathVariable Integer id) {
+        technicianService.deleteById(id);
+        return ResponseEntity.ok().build();
     }
 
 }

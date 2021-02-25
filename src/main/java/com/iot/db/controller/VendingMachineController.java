@@ -3,29 +3,40 @@ package com.iot.db.controller;
 import com.iot.db.entity.VendingMachine;
 import com.iot.db.service.VendingMachineService;
 import java.util.List;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-public class VendingMachineController implements GeneralController<VendingMachine, Integer>{
-    private VendingMachineService service = new VendingMachineService();
+@RestController
+@RequestMapping("/vending-machine")
+public class VendingMachineController {
+    @Autowired
+    private VendingMachineService vendingMachineService;
 
-
-    @Override
-    public List<VendingMachine> getAll() {
-        return service.getAll();
+    @GetMapping
+    public List<VendingMachine> getAllVendingMachines() {
+        return vendingMachineService.getAll();
     }
 
-    @Override
-    public VendingMachine getById(Integer id) {
-        return service.getById(id);
+    @GetMapping("/{id}")
+    public VendingMachine getVendingMachineById(@PathVariable Integer id) {
+        return vendingMachineService.getById(id);
     }
 
-    @Override
-    public String save(VendingMachine createObj) {
-        return service.save(createObj);
+    @PostMapping
+    public VendingMachine saveVendingMachine(@RequestBody VendingMachine vendingMachine) {
+        return vendingMachineService.save(vendingMachine);
     }
 
-    @Override
-    public String deleteById(Integer id) {
-        return service.deleteById(id);
+    @PutMapping
+    public VendingMachine updateVendingMachine(@RequestBody VendingMachine vendingMachine) {
+        return vendingMachineService.save(vendingMachine);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Object> deleteVendingMachineById(@PathVariable Integer id) {
+        vendingMachineService.deleteById(id);
+        return ResponseEntity.ok().build();
     }
 
 }

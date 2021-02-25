@@ -1,94 +1,37 @@
 package com.iot.db.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.sql.Timestamp;
 import javax.persistence.*;
+import lombok.*;
 
 @Entity
+@Builder
+@Setter
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
+@EqualsAndHashCode
+@ToString
 @Table(name = "money_collection")
 public class MoneyCollection {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     @Column(name = "last_collection")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", timezone = "Europe/Berlin")
     private Timestamp lastCollection;
     @Column(name = "money_amount")
     private Float moneyAmount;
 
-    @ManyToOne
+    @JsonIgnore
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "vending_machine_id")
     private VendingMachine vendingMachine;
 
-    @ManyToOne
+    @JsonIgnore
+    @ManyToOne(cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
     @JoinColumn(name = "technician_id")
     private Technician technician;
-
-    public MoneyCollection() {
-    }
-
-    public MoneyCollection(Timestamp lastCollection, Float moneyAmount, VendingMachine vendingMachine,
-                           Technician technician) {
-        this.lastCollection = lastCollection;
-        this.moneyAmount = moneyAmount;
-        this.vendingMachine = vendingMachine;
-        this.technician = technician;
-    }
-
-    public MoneyCollection(Integer id, Timestamp lastCollection, Float moneyAmount,
-                           VendingMachine vendingMachine, Technician technician) {
-        this.id = id;
-        this.lastCollection = lastCollection;
-        this.moneyAmount = moneyAmount;
-        this.vendingMachine = vendingMachine;
-        this.technician = technician;
-    }
-
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public Timestamp getLastCollection() {
-        return lastCollection;
-    }
-
-    public void setLastCollection(Timestamp lastCollection) {
-        this.lastCollection = lastCollection;
-    }
-
-    public Float getMoneyAmount() {
-        return moneyAmount;
-    }
-
-    public void setMoneyAmount(Float moneyAmount) {
-        this.moneyAmount = moneyAmount;
-    }
-
-    public VendingMachine getVendingMachine() {
-        return vendingMachine;
-    }
-
-    public void setVendingMachine(VendingMachine vendingMachine) {
-        this.vendingMachine = vendingMachine;
-    }
-
-    public Technician getTechnician() {
-        return technician;
-    }
-
-    public void setTechnician(Technician technician) {
-        this.technician = technician;
-    }
-
-    @Override
-    public String toString() {
-        return "MoneyCollection{" +
-            "id=" + id +
-            ", lastCollection=" + lastCollection +
-            ", moneyAmount=" + moneyAmount +
-            '}';
-    }
 }
