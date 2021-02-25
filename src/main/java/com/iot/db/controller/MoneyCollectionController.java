@@ -4,7 +4,7 @@ import com.iot.db.entity.MoneyCollection;
 import com.iot.db.service.MoneyCollectionService;
 import java.util.List;
 
-public class MoneyCollectionController implements GeneralController<MoneyCollection, String>{
+public class MoneyCollectionController implements GeneralController<MoneyCollection, Integer>{
     private MoneyCollectionService service = new MoneyCollectionService();
 
     @Override
@@ -13,22 +13,18 @@ public class MoneyCollectionController implements GeneralController<MoneyCollect
     }
 
     @Override
-    public MoneyCollection getById(String id) {
+    public MoneyCollection getById(Integer id) {
         return service.getById(id);
     }
 
     @Override
-    public String create(MoneyCollection createObj) {
-        return service.create(createObj);
+    public String save(MoneyCollection createObj) {
+        return service.save(createObj);
     }
 
     @Override
-    public String deleteById(String id) {
+    public String deleteById(Integer id) {
         return service.deleteById(id);
     }
 
-    @Override
-    public String update(MoneyCollection updateObj) {
-        return service.update(updateObj);
-    }
 }

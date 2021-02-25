@@ -7,7 +7,6 @@ import java.util.List;
 public class VendingMachineService implements GeneralService<VendingMachine, Integer>{
     private VendingMachineDao dao = new VendingMachineDao();
 
-
     @Override
     public List<VendingMachine> getAll() {
         return dao.getAll();
@@ -19,17 +18,12 @@ public class VendingMachineService implements GeneralService<VendingMachine, Int
     }
 
     @Override
-    public String create(VendingMachine createObj) {
-        return dao.create(createObj);
+    public String save(VendingMachine createObj) {
+        return dao.save(createObj);
     }
 
     @Override
     public String deleteById(Integer id) {
         return dao.deleteById(id);
-    }
-
-    @Override
-    public String update(VendingMachine updateObj) {
-        return dao.update(updateObj);
     }
 }

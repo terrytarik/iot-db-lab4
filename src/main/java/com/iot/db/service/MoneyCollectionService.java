@@ -4,7 +4,7 @@ import com.iot.db.dao.MoneyCollectionDao;
 import com.iot.db.entity.MoneyCollection;
 import java.util.List;
 
-public class MoneyCollectionService implements GeneralService<MoneyCollection, String>{
+public class MoneyCollectionService implements GeneralService<MoneyCollection, Integer>{
     private MoneyCollectionDao dao = new MoneyCollectionDao();
 
     @Override
@@ -13,22 +13,18 @@ public class MoneyCollectionService implements GeneralService<MoneyCollection, S
     }
 
     @Override
-    public MoneyCollection getById(String id) {
+    public MoneyCollection getById(Integer id) {
         return dao.getById(id);
     }
 
     @Override
-    public String create(MoneyCollection createObj) {
-        return dao.create(createObj);
+    public String save(MoneyCollection createObj) {
+        return dao.save(createObj);
     }
 
     @Override
-    public String deleteById(String id) {
+    public String deleteById(Integer id) {
         return dao.deleteById(id);
     }
 
-    @Override
-    public String update(MoneyCollection updateObj) {
-        return dao.update(updateObj);
-    }
 }

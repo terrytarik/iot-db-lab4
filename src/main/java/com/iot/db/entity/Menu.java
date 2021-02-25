@@ -1,29 +1,49 @@
 package com.iot.db.entity;
 
+import java.util.List;
+import javax.persistence.*;
+
+@Entity
+@Table(name = "menu")
 public class Menu {
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
+    @Column
     private String name;
-    private int vendingMachineId;
+
+    @OneToMany(mappedBy = "menu")
+    private List<VendingMachine> vendingMachine;
+
+    @ManyToMany(cascade = {CascadeType.DETACH, CascadeType.MERGE,
+        CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinTable(
+        name = "menu_has_menu_item",
+        joinColumns = {@JoinColumn(name = "menu_id")},
+        inverseJoinColumns = {@JoinColumn(name = "menu_item_id")}
+    )
+    private List<MenuItem> menuItems;
 
     public Menu() {
     }
 
-    public Menu(String name, int vendingMachineId) {
+    public Menu(String name, List<MenuItem> menuItems) {
         this.name = name;
-        this.vendingMachineId = vendingMachineId;
+        this.menuItems = menuItems;
     }
 
-    public Menu(int id, String name, int vendingMachineId) {
+    public Menu(Integer id, String name, List<MenuItem> menuItems) {
         this.id = id;
         this.name = name;
-        this.vendingMachineId = vendingMachineId;
+        this.menuItems = menuItems;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -35,12 +55,20 @@ public class Menu {
         this.name = name;
     }
 
-    public int getVendingMachineId() {
-        return vendingMachineId;
+    public List<VendingMachine> getVendingMachine() {
+        return vendingMachine;
     }
 
-    public void setVendingMachineId(int vendingMachineId) {
-        this.vendingMachineId = vendingMachineId;
+    public void setVendingMachine(List<VendingMachine> vendingMachine) {
+        this.vendingMachine = vendingMachine;
+    }
+
+    public List<MenuItem> getMenuItems() {
+        return menuItems;
+    }
+
+    public void setMenuItems(List<MenuItem> menuItems) {
+        this.menuItems = menuItems;
     }
 
     @Override
@@ -48,7 +76,6 @@ public class Menu {
         return "Menu{" +
             "id=" + id +
             ", name='" + name + '\'' +
-            ", vendingMachineId=" + vendingMachineId +
             '}';
     }
 }

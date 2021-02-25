@@ -1,49 +1,49 @@
 package com.iot.db.dao;
 
 import com.iot.db.config.HibernateUtils;
-import com.iot.db.entity.Technician;
+import com.iot.db.entity.MenuItem;
 import java.util.List;
 import org.hibernate.Session;
 
-public class TechnicianDao implements GeneralDAO<Technician, Integer> {
+public class MenuItemDao implements GeneralDAO<MenuItem, Integer> {
     private Session session;
 
     @Override
-    public List<Technician> getAll() {
-        List<Technician> technicians;
+    public List<MenuItem> getAll() {
+        List<MenuItem> menuItems;
         try {
             session = HibernateUtils.getSessionFactory().openSession();
             session.beginTransaction();
-            technicians =
-                session.createQuery("FROM Technician vm", Technician.class).getResultList();
+            menuItems =
+                session.createQuery("FROM MenuItem mi", MenuItem.class).getResultList();
             session.getTransaction().commit();
         } finally {
             if (session != null) {
                 session.close();
             }
         }
-        return technicians;
+        return menuItems;
     }
 
     @Override
-    public Technician getById(Integer id) {
-        Technician technician;
+    public MenuItem getById(Integer id) {
+        MenuItem menuItem;
         try {
             session = HibernateUtils.getSessionFactory().openSession();
             session.beginTransaction();
-            technician =
-                session.get(Technician.class, id);
+            menuItem =
+                session.get(MenuItem.class, id);
             session.getTransaction().commit();
         } finally {
             if (session != null) {
                 session.close();
             }
         }
-        return technician;
+        return menuItem;
     }
 
     @Override
-    public String save(Technician createObj) {
+    public String save(MenuItem createObj) {
         try {
             session = HibernateUtils.getSessionFactory().openSession();
             session.beginTransaction();
@@ -63,9 +63,9 @@ public class TechnicianDao implements GeneralDAO<Technician, Integer> {
         try {
             session = HibernateUtils.getSessionFactory().openSession();
             session.beginTransaction();
-            Technician technician = session.get(Technician.class, id);
-            if (technician != null) {
-                session.delete(technician);
+            MenuItem menuItem = session.get(MenuItem.class, id);
+            if (menuItem != null) {
+                session.delete(menuItem);
                 result = true;
             }
             session.getTransaction().commit();

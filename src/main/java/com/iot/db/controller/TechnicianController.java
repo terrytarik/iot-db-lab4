@@ -18,8 +18,8 @@ public class TechnicianController implements GeneralController<Technician, Integ
     }
 
     @Override
-    public String create(Technician createObj) {
-        return technicianService.create(createObj);
+    public String save(Technician createObj) {
+        return technicianService.save(createObj);
     }
 
     @Override
@@ -27,8 +27,4 @@ public class TechnicianController implements GeneralController<Technician, Integ
         return technicianService.deleteById(id);
     }
 
-    @Override
-    public String update(Technician updateObj) {
-        return technicianService.update(updateObj);
-    }
 }

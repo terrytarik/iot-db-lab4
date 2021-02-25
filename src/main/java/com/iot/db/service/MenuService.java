@@ -17,17 +17,12 @@ public class MenuService implements GeneralService<Menu, Integer> {
     }
 
     @Override
-    public String create(Menu createObj) {
-        return dao.create(createObj);
+    public String save(Menu createObj) {
+        return dao.save(createObj);
     }
 
     @Override
     public String deleteById(Integer id) {
         return dao.deleteById(id);
-    }
-
-    @Override
-    public String update(Menu updateObj) {
-        return dao.update(updateObj);
     }
 }
