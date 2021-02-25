@@ -1,1 +1,2 @@
-# iot-db-lab4
+# spring-data-jpa-app
+Application for Spring Data JPA practice
